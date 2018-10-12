@@ -11,10 +11,14 @@ class ReadTime extends StatefulWidget {
 }
 
 class ReadTimeState extends State<ReadTime> {
+  //用于控制返回api接口第N页的数据
   int _page = 1;
+  //存放返回的map数据
   List articleData;
+  //上拉加载更多中用于控制是否正在刷新
   bool isLoading = false;
 
+  //滑动控制监听器
   ScrollController _scrollController = new ScrollController();
 
   //通过api接口下载数据
