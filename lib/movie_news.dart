@@ -61,6 +61,7 @@ class MoiveNewsState extends State<MoiveNews> {
       (index) {
         return new Container(
           child: new CircleAvatar(
+            backgroundColor: Colors.white,
             backgroundImage:
                 new NetworkImage(subjects['casts'][index]['avatars']['small']),
           ),

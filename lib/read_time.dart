@@ -23,8 +23,7 @@ class ReadTimeState extends State<ReadTime> {
 
   //通过api接口下载数据
   Future loadData() async {
-    final String loadUrl =
-        'http://www.wanandroid.com/article/list/0/json';
+    final String loadUrl = 'http://www.wanandroid.com/article/list/0/json';
     http.Response response = await http.get(loadUrl);
     var result = json.decode(response.body);
     setState(
@@ -40,8 +39,7 @@ class ReadTimeState extends State<ReadTime> {
       setState(() {
         isLoading = true;
       });
-      String loadUrl =
-          'http://www.wanandroid.com/article/list/${_page}/json';
+      String loadUrl = 'http://www.wanandroid.com/article/list/${_page}/json';
       http.Response response = await http.get(loadUrl);
       var result = json.decode(response.body);
       _page++;
@@ -98,8 +96,11 @@ class ReadTimeState extends State<ReadTime> {
     loadData();
     _scrollController.addListener(
       () {
+        //print('当前位置：${_scrollController.position.pixels}');
         if (_scrollController.position.pixels ==
             _scrollController.position.maxScrollExtent) {
+          //print('最大位置：${_scrollController.position.maxScrollExtent}');
+          print('滑动到底部了');
           _getMore();
         }
       },
@@ -110,12 +111,11 @@ class ReadTimeState extends State<ReadTime> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text('最新文章'),
+        title: new Text('最新博文'),
       ),
-      body: new RefreshIndicator(
+      body: new Center(
         child: getArticles(),
-        onRefresh: _onRefresh,
-      ),
+      )
     );
   }
 
@@ -123,10 +123,13 @@ class ReadTimeState extends State<ReadTime> {
     if (articleData.length != 0) {
       return new ListView.builder(
         itemBuilder: (context, index) {
-          if (index < articleData.length) {
-            return ArticlesItems(articleData[index], index);
-          } else {
+          print('执行了 $index 次');
+          if (index >= articleData.length) {
             return _getMoreWidget();
+          } else if(index == 0){
+            return pictureItem();
+          }else{
+            return ArticlesItems(articleData[index], index);
           }
         },
         itemCount: articleData.length + 1,
@@ -135,6 +138,16 @@ class ReadTimeState extends State<ReadTime> {
     } else {
       return new CupertinoActivityIndicator();
     }
+  }
+
+  pictureItem(){
+    return new Container(
+      padding: const EdgeInsets.all(5.0),
+      child: new ClipRRect(
+        child: new Image.network('http://www.wanandroid.com/blogimgs/62c1bd68-b5f3-4a3c-a649-7ca8c7dfabe6.png',fit: BoxFit.fill,),
+        borderRadius: new BorderRadius.circular(5.0),
+      )
+    );
   }
 
   ArticlesItems(var data, int index) {
@@ -183,16 +196,16 @@ class ReadTimeState extends State<ReadTime> {
 
     return new GestureDetector(
       onTap: () {
-//        Navigator.push(
-//          context,
-//          new MaterialPageRoute(
-//            builder: (context) {
-//              return new ArticleWebView(
-//                data: data['data'][index],
-//              );
-//            },
-//          ),
-//        );
+        Navigator.push(
+          context,
+          new MaterialPageRoute(
+            builder: (context) {
+              return new ArticleWebView(
+                data: data,
+              );
+            },
+          ),
+        );
       },
       child: new Card(
         child: row,

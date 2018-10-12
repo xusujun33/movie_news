@@ -11,9 +11,10 @@ class MyApp extends StatelessWidget {
     return new MaterialApp(
       title: 'Movie News',
       theme: new ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: Colors.white,
       ),
       home: new MyHomePage(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -47,12 +48,12 @@ class MyHomePageState extends State<MyHomePage> {
       bottomNavigationBar: new BottomNavigationBar(
         items: [
           new BottomNavigationBarItem(
-            icon: new Icon(Icons.movie),
-            title: new Text('电影资讯'),
+            icon: new Icon(Icons.movie,color: Colors.blueGrey,),
+            title: new Text('电影资讯',style: new TextStyle(color: Colors.blueGrey),),
           ),
           new BottomNavigationBarItem(
-            icon: new Icon(Icons.assignment),
-            title: new Text('码农精选'),
+            icon: new Icon(Icons.assignment,color: Colors.blueGrey,),
+            title: new Text('码农精选',style: new TextStyle(color: Colors.blueGrey),),
           ),
         ],
         currentIndex: _currentIndex,
