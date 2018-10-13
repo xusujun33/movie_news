@@ -14,9 +14,10 @@ class ReadTimeState extends State<ReadTime> {
   //用于控制返回api接口第N页的数据
   int _page = 1;
   //存放返回的map数据
-  List articleData;
+  List articleData = [];
   //上拉加载更多中用于控制是否正在刷新
   bool isLoading = false;
+  List a = [];
 
   //滑动控制监听器
   ScrollController _scrollController = new ScrollController();
@@ -26,9 +27,10 @@ class ReadTimeState extends State<ReadTime> {
     final String loadUrl = 'http://www.wanandroid.com/article/list/0/json';
     http.Response response = await http.get(loadUrl);
     var result = json.decode(response.body);
+    a = result['data']['datas'];
     setState(
       () {
-        articleData = result['data']['datas'];
+        articleData = a;
       },
     );
   }

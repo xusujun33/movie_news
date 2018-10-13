@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter/cupertino.dart';
 
 class MoiveNews extends StatefulWidget {
   @override
@@ -8,7 +9,7 @@ class MoiveNews extends StatefulWidget {
 }
 
 class MoiveNewsState extends State<MoiveNews> {
-  var subjects;
+  var subjects = [];
 
   @override
   void initState() {
@@ -28,11 +29,11 @@ class MoiveNewsState extends State<MoiveNews> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text('电影资讯'),
+    return new CupertinoPageScaffold(
+      navigationBar: new CupertinoNavigationBar(
+        middle: new Text('电影资讯'),
       ),
-      body: new Center(
+      child: new Center(
         child: getMovieNews(),
       ),
     );
@@ -43,15 +44,13 @@ class MoiveNewsState extends State<MoiveNews> {
       return new ListView.builder(
         itemCount: subjects.length,
         itemBuilder: (context, index) {
-          return movieItems(subjects[index]);
+          if(index < subjects.length){
+            return movieItems(subjects[index]);
+          }
         },
       );
     } else {
-      return new Center(
-        child: new Image.network(
-          'https://tse4-mm.cn.bing.net/th?id=OGC.7f46278be5627a9a392fc41683f11674&pid=1.7&rurl=http%3a%2f%2ffiles.57gif.com%2fwebgif%2f0%2fb%2f1d%2fba15df1856621af7249223de5e5df.gif&ehk=c5941MRB12dcnXKEQ%2fTo6A',
-        ),
-      );
+      return new CupertinoActivityIndicator();
     }
   }
 
